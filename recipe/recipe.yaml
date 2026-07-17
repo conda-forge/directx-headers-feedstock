@@ -17,12 +17,8 @@ build:
   script:
     interpreter: brush
     content: |
-      include_dir="$PREFIX/include"
-      if [[ -n "${__win:-}" ]]; then
-        include_dir="$PREFIX/Library/include"
-      fi
-      mkdir -p "$include_dir"
-      cp -R include/directx include/wsl "$include_dir/"
+      mkdir -p "${LIBRARY_INC:-$PREFIX/include}"
+      cp -R include/directx include/wsl "${LIBRARY_INC:-$PREFIX/include}/"
 
 requirements:
   build:
