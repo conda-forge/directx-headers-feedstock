@@ -12,24 +12,41 @@ source:
   sha256: 7e3814ef45aef6083920e19546a307b3292dca1f7bca8af2a67c72c6df4c7e33
 
 build:
-  number: 0
+  number: 1
+  noarch: generic
   script:
-    interpreter: brush
+    interpreter: bash
     content: |
-      mkdir -p "${LIBRARY_INC:-$PREFIX/include}"
-      cp -R include/directx include/wsl "${LIBRARY_INC:-$PREFIX/include}/"
+      include_dir="$PREFIX/include"
+      if [[ -n "${__win:-}" ]]; then
+        include_dir="$PREFIX/Library/include"
+      fi
+      mkdir -p "$include_dir"
+      cp -R include/directx include/wsl "$include_dir/"
 
 requirements:
   build:
-    - brush
-    - uutils-coreutils
+    - if: win
+      then: m2-bash
+    - if: win
+      then: m2-coreutils
+  run:
+    - if: win
+      then: __win
+      else: __unix
 
 tests:
   - package_contents:
-      include:
-        - directx/d3d12.h
-        - directx/d3dx12.h
-        - directx/dxcore.h
+      files:
+        - if: win
+          then: Library/include/directx/d3d12.h
+          else: include/directx/d3d12.h
+        - if: win
+          then: Library/include/directx/d3dx12.h
+          else: include/directx/d3dx12.h
+        - if: win
+          then: Library/include/directx/dxcore.h
+          else: include/directx/dxcore.h
 
 about:
   homepage: https://github.com/microsoft/DirectX-Headers
