@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "1.606.3"
+  version: "1.606.4"
 
 package:
   name: directx-headers
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/microsoft/DirectX-Headers/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: bf0183981e505336e918609374907c934b99eb61c0826d75a5649f41568abc4b
+  sha256: fa95f9ab7cd6111a4cbff91f5b440bf79b38179403c9eef22438065b8b08d303
 
 build:
   number: 1
