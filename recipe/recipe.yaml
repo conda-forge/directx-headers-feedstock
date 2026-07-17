@@ -12,7 +12,8 @@ source:
   sha256: 7e3814ef45aef6083920e19546a307b3292dca1f7bca8af2a67c72c6df4c7e33
 
 build:
-  number: 0
+  number: 1
+  noarch: generic
   script:
     interpreter: brush
     content: |
@@ -23,13 +24,23 @@ requirements:
   build:
     - brush
     - uutils-coreutils
+  run:
+    - if: win
+      then: __win
+      else: __unix
 
 tests:
   - package_contents:
-      include:
-        - directx/d3d12.h
-        - directx/d3dx12.h
-        - directx/dxcore.h
+      files:
+        - if: win
+          then:
+            - Library/include/directx/d3d12.h
+            - Library/include/directx/d3dx12.h
+            - Library/include/directx/dxcore.h
+          else:
+            - include/directx/d3d12.h
+            - include/directx/d3dx12.h
+            - include/directx/dxcore.h
 
 about:
   homepage: https://github.com/microsoft/DirectX-Headers
