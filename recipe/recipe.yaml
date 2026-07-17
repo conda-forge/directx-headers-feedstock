@@ -15,7 +15,7 @@ build:
   number: 1
   noarch: generic
   script:
-    interpreter: bash
+    interpreter: brush
     content: |
       include_dir="$PREFIX/include"
       if [[ -n "${__win:-}" ]]; then
@@ -26,10 +26,8 @@ build:
 
 requirements:
   build:
-    - if: win
-      then: m2-bash
-    - if: win
-      then: m2-coreutils
+    - brush
+    - uutils-coreutils
   run:
     - if: win
       then: __win
@@ -39,14 +37,14 @@ tests:
   - package_contents:
       files:
         - if: win
-          then: Library/include/directx/d3d12.h
-          else: include/directx/d3d12.h
-        - if: win
-          then: Library/include/directx/d3dx12.h
-          else: include/directx/d3dx12.h
-        - if: win
-          then: Library/include/directx/dxcore.h
-          else: include/directx/dxcore.h
+          then:
+            - Library/include/directx/d3d12.h
+            - Library/include/directx/d3dx12.h
+            - Library/include/directx/dxcore.h
+          else:
+            - include/directx/d3d12.h
+            - include/directx/d3dx12.h
+            - include/directx/dxcore.h
 
 about:
   homepage: https://github.com/microsoft/DirectX-Headers
